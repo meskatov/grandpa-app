@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>С Юбилеем, Владимир!</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+</head>
+<body>
+
+    <!-- ЭКРАН 1: Активация -->
+    <section class="screen active" id="screen-activation">
+        <div class="screen-content">
+            <div class="golden-circle">
+                <span class="circle-text">60</span>
+            </div>
+            <button class="golden-btn activation-btn" id="btn-activate">
+                <span>Активировать приложение</span>
+                <span class="btn-shine"></span>
+            </button>
+            <p class="subtitle-text">Особенное поздравление для особенного человека</p>
+        </div>
+    </section>
+
+    <!-- ЭКРАН 2: Приветствие -->
+    <section class="screen" id="screen-greeting">
+        <div class="screen-content greeting-content">
+            <h1 class="greeting-text greeting-line-1">Привет, Владимир!</h1>
+            <h2 class="greeting-text greeting-line-2">Тебе сегодня 60 годиков</h2>
+            <button class="golden-btn greeting-btn" id="btn-continue">
+                <span>Продолжить</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+        <div class="particles-container" id="particles"></div>
+    </section>
+
+    <!-- ЭКРАН 3: Детство -->
+    <section class="screen" id="screen-childhood">
+        <div class="screen-content stage-content">
+            <div class="stage-number">01</div>
+            <div class="stage-image-container">
+                <img src="images/childhood.jpg" alt="Детство" class="stage-image" id="img-childhood">
+                <div class="image-frame"></div>
+            </div>
+            <h3 class="stage-title">Давай начнём с твоего детства...</h3>
+            <p class="stage-text">
+                Помнишь тот самый двор, где ты делал первые шаги?<br>
+                Где каждое утро начиналось с маминой улыбки,<br>
+                а каждый вечер пах летними цветами.<br>
+                Ты был счастлив просто потому, что жил.<br>
+                Маленький Володя с большим сердцем...
+            </p>
+            <button class="golden-btn nav-btn next-btn" data-next="screen-youth">
+                <span>Далее</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ЭКРАН 4: Юность -->
+    <section class="screen" id="screen-youth">
+        <div class="screen-content stage-content">
+            <div class="stage-number">02</div>
+            <div class="stage-image-container">
+                <img src="images/youth.jpg" alt="Юность" class="stage-image" id="img-youth">
+                <div class="image-frame"></div>
+            </div>
+            <h3 class="stage-title">Годы юности, полные надежд...</h3>
+            <p class="stage-text">
+                Время, когда весь мир лежал у твоих ног.<br>
+                Первая любовь, первые победы, первые мечты.<br>
+                Ты строил планы и верил, что всё получится.<br>
+                И ведь получилось, Владимир. Всё получилось.
+            </p>
+            <button class="golden-btn nav-btn next-btn" data-next="screen-family">
+                <span>Далее</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ЭКРАН 5: Семья -->
+    <section class="screen" id="screen-family">
+        <div class="screen-content stage-content">
+            <div class="stage-number">03</div>
+            <div class="stage-image-container">
+                <img src="images/family.jpg" alt="Семья" class="stage-image" id="img-family">
+                <div class="image-frame"></div>
+            </div>
+            <h3 class="stage-title">Твоя семья — твоё богатство</h3>
+            <p class="stage-text">
+                Дочь и сын — твоя гордость и продолжение.<br>
+                Любящая жена, которая всегда рядом.<br>
+                Ты построил дом, полный тепла и смеха.<br>
+                Ты — глава большой и дружной семьи.<br>
+                И это дороже любых сокровищ.
+            </p>
+            <button class="golden-btn nav-btn next-btn" data-next="screen-maturity">
+                <span>Далее</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ЭКРАН 6: Зрелость -->
+    <section class="screen" id="screen-maturity">
+        <div class="screen-content stage-content">
+            <div class="stage-number">04</div>
+            <div class="stage-image-container">
+                <img src="images/maturity.jpg" alt="Зрелость" class="stage-image" id="img-maturity">
+                <div class="image-frame"></div>
+            </div>
+            <h3 class="stage-title">Мудрость, проверенная годами</h3>
+            <p class="stage-text">
+                Шестьдесят — это не возраст, это достижение.<br>
+                За плечами — целая жизнь опыта и знаний.<br>
+                Ты видел многое, прошёл через всё<br>
+                и остался таким же добрым и сильным.<br>
+                Ты — пример для всех нас, Владимир.
+            </p>
+            <button class="golden-btn nav-btn next-btn" data-next="screen-video">
+                <span>Смотреть поздравление</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ЭКРАН 7: Видео-поздравление -->
+    <section class="screen" id="screen-video">
+        <div class="screen-content video-content">
+            <div class="stage-number">🎥</div>
+            <div class="video-container">
+                <video 
+                    id="greeting-video" 
+                    class="greeting-video" 
+                    controls 
+                    playsinline 
+                    preload="auto"
+                    poster="images/video-poster.jpg">
+                    <source src="images/greeting.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
+                <div class="video-frame"></div>
+            </div>
+            <p class="video-caption">Посмотри это видео до конца...</p>
+            <button class="golden-btn nav-btn next-btn" data-next="screen-final" id="btn-after-video">
+                <span>Продолжить</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ЭКРАН 8: ФИНАЛ - Дерево жизни -->
+    <section class="screen" id="screen-final">
+        <div class="screen-content final-content">
+            <div class="tree-container">
+                <div class="tree-silhouette">
+                    <img src="images/tree.jpg" alt="Дерево жизни" class="tree-image" id="img-tree">
+                </div>
+                <div class="tree-leaves" id="tree-leaves"></div>
+            </div>
+            <div class="final-text-container">
+                <h2 class="final-title">Твоё дерево жизни</h2>
+                <p class="final-text">
+                    Каждая ветвь — это год твоей жизни.<br>
+                    Каждый листок — это человек, которого ты согрел.<br>
+                    Твои корни глубоки, твоя крона высока.<br>
+                    Ты дал жизнь, ты дал любовь, ты дал себя.<br><br>
+                    <span class="golden-text">Спасибо тебе за всё, папа.</span><br>
+                    <span class="golden-text">С юбилеем, Владимир. Мы тебя любим.</span>
+                </p>
+            </div>
+            <button class="golden-btn hug-btn" id="btn-hug">
+                <span>🤍 Обнять дедушку</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+        <div class="hearts-container" id="hearts-container"></div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

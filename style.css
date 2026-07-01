@@ -1,0 +1,614 @@
+/* ===== ШРИФТЫ ===== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;600&display=swap');
+
+/* ===== СБРОС И БАЗА ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-dark: #0a0a1a;
+    --bg-gradient: linear-gradient(135deg, #0a0a1a 0%, #0d1b2a 30%, #0a1628 60%, #0a0a1a 100%);
+    --golden: #d4af37;
+    --golden-light: #e8c860;
+    --golden-dark: #a67c00;
+    --golden-glow: rgba(212, 175, 55, 0.3);
+    --text-light: #e0d5c1;
+    --text-white: #f5f0e8;
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Playfair Display', 'Montserrat', serif;
+    background: var(--bg-gradient);
+    color: var(--text-white);
+    height: 100%;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+}
+
+/* ===== ЭКРАНЫ ===== */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 10;
+}
+
+.screen-content {
+    text-align: center;
+    padding: 40px 25px;
+    max-width: 500px;
+    width: 100%;
+    z-index: 2;
+    position: relative;
+}
+
+/* ===== ЭКРАН АКТИВАЦИИ ===== */
+.golden-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid var(--golden);
+    margin: 0 auto 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: circlePulse 3s ease-in-out infinite;
+    box-shadow: 
+        0 0 40px var(--golden-glow), 
+        0 0 80px var(--golden-glow), 
+        inset 0 0 40px var(--golden-glow);
+    position: relative;
+}
+
+.golden-circle::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    animation: circleRotate 10s linear infinite;
+}
+
+.golden-circle::after {
+    content: '';
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    border: 1px dashed rgba(212, 175, 55, 0.1);
+    animation: circleRotate 15s linear infinite reverse;
+}
+
+.circle-text {
+    font-size: 65px;
+    font-weight: 900;
+    color: var(--golden);
+    font-family: 'Playfair Display', serif;
+    text-shadow: 0 0 25px var(--golden-glow);
+    letter-spacing: -2px;
+}
+
+/* Золотые кнопки */
+.golden-btn {
+    position: relative;
+    display: inline-block;
+    padding: 20px 50px;
+    background: linear-gradient(135deg, var(--golden-dark) 0%, var(--golden) 50%, var(--golden-light) 100%);
+    color: #0a0a1a;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.25);
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.golden-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 15px rgba(212, 175, 55, 0.5);
+    transition: all 0.1s ease;
+}
+
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.25), 
+        transparent
+    );
+    transform: skewX(-25deg);
+    animation: btnShine 3.5s ease-in-out infinite;
+}
+
+.subtitle-text {
+    margin-top: 30px;
+    color: var(--text-light);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    opacity: 0.5;
+}
+
+/* ===== ЭКРАН ПРИВЕТСТВИЯ ===== */
+.greeting-content {
+    position: relative;
+    z-index: 2;
+}
+
+.greeting-text {
+    color: var(--golden);
+    text-shadow: 0 0 35px var(--golden-glow);
+    opacity: 0;
+    transform: translateY(40px);
+    font-family: 'Playfair Display', serif;
+}
+
+.greeting-line-1 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    animation: textAppear 1.2s ease forwards;
+    animation-delay: 0.3s;
+}
+
+.greeting-line-2 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 60px;
+    animation: textAppear 1.2s ease forwards;
+    animation-delay: 2.5s;
+    color: var(--golden-light);
+}
+
+.greeting-btn {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: textAppear 0.8s ease forwards;
+    animation-delay: 4.5s;
+}
+
+/* Частицы */
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--golden);
+    border-radius: 50%;
+    animation: particleFloat linear infinite;
+    box-shadow: 0 0 6px var(--golden-glow);
+}
+
+/* ===== ЭКРАНЫ ЭТАПОВ ЖИЗНИ ===== */
+.stage-content {
+    text-align: center;
+}
+
+.stage-number {
+    font-size: 90px;
+    font-weight: 900;
+    color: var(--golden);
+    opacity: 0.12;
+    margin-bottom: -45px;
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+}
+
+.stage-image-container {
+    position: relative;
+    width: 230px;
+    height: 230px;
+    margin: 35px auto;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.image-frame {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid var(--golden);
+    box-shadow: 
+        0 0 35px var(--golden-glow), 
+        inset 0 0 25px rgba(212, 175, 55, 0.15);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.stage-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: sepia(0.25) brightness(0.9);
+    transition: filter 0.5s ease;
+}
+
+.stage-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--golden);
+    margin: 25px 0 15px;
+    font-family: 'Playfair Display', serif;
+    text-shadow: 0 0 15px var(--golden-glow);
+}
+
+.stage-text {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text-light);
+    margin-bottom: 35px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+}
+
+/* ===== ЭКРАН ВИДЕО ===== */
+.video-content {
+    text-align: center;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    margin: 25px auto 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.video-frame {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--golden);
+    border-radius: 8px;
+    box-shadow: 0 0 35px var(--golden-glow);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.greeting-video {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    background: #000;
+    z-index: 1;
+}
+
+.greeting-video::-webkit-media-controls-panel {
+    background: linear-gradient(0deg, rgba(10, 10, 26, 0.95), transparent);
+}
+
+.greeting-video::-webkit-media-controls-play-button {
+    filter: brightness(0) saturate(100%) invert(72%) sepia(55%) saturate(500%) hue-rotate(4deg) brightness(95%) contrast(90%);
+}
+
+.video-caption {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: var(--text-light);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 25px;
+}
+
+/* ===== ФИНАЛЬНЫЙ ЭКРАН ===== */
+.final-content {
+    position: relative;
+    z-index: 2;
+}
+
+.tree-container {
+    position: relative;
+    margin-bottom: 35px;
+}
+
+.tree-silhouette {
+    width: 210px;
+    height: 260px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--golden);
+    box-shadow: 0 0 55px var(--golden-glow);
+}
+
+.tree-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.4) brightness(0.8);
+}
+
+.tree-leaves {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    width: 250px;
+    height: 300px;
+}
+
+.leaf {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--golden);
+    border-radius: 50% 0 50% 0;
+    animation: leafFall linear forwards;
+    opacity: 0;
+    box-shadow: 0 0 5px var(--golden-glow);
+}
+
+.final-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--golden);
+    margin-bottom: 25px;
+    text-shadow: 0 0 25px var(--golden-glow);
+    font-family: 'Playfair Display', serif;
+}
+
+.final-text {
+    font-size: 15px;
+    line-height: 2.2;
+    color: var(--text-light);
+    margin-bottom: 35px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+}
+
+.golden-text {
+    color: var(--golden);
+    font-weight: 600;
+    font-size: 18px;
+    text-shadow: 0 0 10px var(--golden-glow);
+}
+
+/* Сердечки */
+.hearts-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    font-size: 24px;
+    animation: heartFloat linear forwards;
+    pointer-events: none;
+}
+
+/* ===== АНИМАЦИИ ===== */
+@keyframes circlePulse {
+    0%, 100% { 
+        box-shadow: 0 0 40px var(--golden-glow), 0 0 80px var(--golden-glow), inset 0 0 40px var(--golden-glow); 
+    }
+    50% { 
+        box-shadow: 0 0 70px var(--golden-glow), 0 0 140px var(--golden-glow), inset 0 0 70px var(--golden-glow); 
+    }
+}
+
+@keyframes circleRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes btnShine {
+    0% { left: -100%; }
+    40% { left: 100%; }
+    100% { left: 100%; }
+}
+
+@keyframes textAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-110vh) translateX(var(--drift)) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes leafFall {
+    0% {
+        transform: translateY(-40px) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(300px) translateX(var(--drift)) rotate(var(--spin));
+        opacity: 0;
+    }
+}
+
+@keyframes heartFloat {
+    0% {
+        transform: translateY(0) scale(0);
+        opacity: 0;
+    }
+    15% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 1;
+    }
+    85% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-85vh) translateX(var(--drift)) scale(0.2);
+        opacity: 0;
+    }
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 400px) {
+    .screen-content {
+        padding: 30px 20px;
+    }
+
+    .golden-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .circle-text {
+        font-size: 50px;
+    }
+
+    .golden-btn {
+        padding: 16px 35px;
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    .greeting-line-1 {
+        font-size: 30px;
+    }
+
+    .greeting-line-2 {
+        font-size: 18px;
+    }
+
+    .stage-number {
+        font-size: 65px;
+        margin-bottom: -30px;
+    }
+
+    .stage-image-container {
+        width: 180px;
+        height: 180px;
+    }
+
+    .stage-title {
+        font-size: 21px;
+    }
+
+    .stage-text {
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .video-container {
+        max-width: 310px;
+    }
+
+    .video-caption {
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+
+    .tree-silhouette {
+        width: 170px;
+        height: 210px;
+    }
+
+    .final-title {
+        font-size: 25px;
+    }
+
+    .final-text {
+        font-size: 13px;
+    }
+
+    .golden-text {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 401px) and (max-width: 768px) {
+    .screen-content {
+        padding: 40px 30px;
+    }
+
+    .greeting-line-1 {
+        font-size: 36px;
+    }
+
+    .stage-image-container {
+        width: 210px;
+        height: 210px;
+    }
+
+    .video-container {
+        max-width: 360px;
+    }
+}
