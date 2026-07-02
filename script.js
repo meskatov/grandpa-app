@@ -1,211 +1,189 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;600;700&display=swap');
+// ===== ЗВЁЗДЫ =====
+(function(){
+    const c = document.getElementById('stars-container');
+    for(let i=0;i<100;i++){
+        const s = document.createElement('div'); s.classList.add('star');
+        s.style.left = Math.random()*100+'%';
+        s.style.top = Math.random()*100+'%';
+        const sz = 1+Math.random()*2;
+        s.style.width = sz+'px'; s.style.height = sz+'px';
+        s.style.animationDuration = (1.5+Math.random()*4)+'s';
+        s.style.animationDelay = Math.random()*3+'s';
+        c.appendChild(s);
+    }
+})();
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+// ===== ДАННЫЕ ЭТАПОВ =====
+const stages = [
+    { id:'screen-childhood', num:'01', img:'images/childhood.jpg', title:'С чего всё начиналось...', text:'Маленький Володя. Крошечные ладошки, которые тянулись к маме. Первые шаги по скрипучему полу старого дома. Запах бабушкиных пирогов по выходным. Двор, где каждый куст был тайной, а каждая лужа — океаном.' },
+    { id:'screen-school', num:'02', img:'images/school.jpg', title:'Школьные годы', text:'Белый фартук, букет гладиолусов, первый звонок. Ты сидел за партой и рисовал самолётики. Учительница говорила: «Володя, ты способный». А ты старался. По-своему. Друзья, первые пятёрки и двойки, первые победы.' },
+    { id:'screen-youth', num:'03', img:'images/youth.jpg', title:'Время, когда всё возможно', text:'Юность — это ветер в голове и огонь в сердце. Ты мечтал о великом. Строил планы, влюблялся, ошибался и снова вставал. Ночами сидел у костра, пел под гитару и верил — всё получится.' },
+    { id:'screen-army', num:'04', img:'images/army.jpg', title:'Честь имею', text:'Повестка. Проводы. Мамины слёзы. Ты уходил мальчишкой, а вернулся мужчиной. Армия научила главному: держать слово, стоять за своих и не сдаваться.' },
+    { id:'screen-friend', num:'05', img:'images/friend.jpg', title:'Братья навсегда', text:'Есть друзья, а есть — боевые товарищи. Твой друг — из вторых. Вы прошли через такое, что другим и не снилось. Делили хлеб, прикрывали спину, смеялись до слёз.' },
+    { id:'screen-parents', num:'06', img:'images/parents.jpg', title:'Мама Галя и папа', text:'Два человека, без которых тебя бы не было. Мама — твой ангел-хранитель. Папа — первый герой. Он научил тебя быть мужчиной. Они отдали тебе всё.' },
+    { id:'screen-daughter', num:'07', img:'images/daughter.jpg', title:'Твоя принцесса — Наташа', text:'Когда она родилась, ты впервые заплакал от счастья. Крошечный свёрток в больших руках. Первые шаги, первый класс. Ты провожал её в школу, а потом — под венец. Для тебя она навсегда малышка.' },
+    { id:'screen-son', num:'08', img:'images/son.jpg', title:'Наследник — Игорь', text:'Сын. Твоя гордость. Твоё продолжение. Ты учил его забивать гвозди, водить машину, быть честным. Ты передал ему всё, что знал. И теперь он — твоя опора.' },
+    { id:'screen-pearl-wedding', num:'🦪', img:'images/pearl-wedding.jpg', title:'30 лет вместе — Жемчужная свадьба', text:'Тридцать лет рука об руку с Александрой. Жемчуг рождается из песчинки, становясь драгоценностью. Так и ваш брак: год за годом вы создали нечто бесценное.' },
+    { id:'screen-family', num:'09', img:'images/family.jpg', title:'Александра, Наташа, Игорь — твой мир', text:'Ты построил дом. Не из кирпича — из любви. Александра всегда рядом. Наташа и Игорь — твоя гордость. Это и есть счастье.' }
+];
 
-:root {
-    --bg: #050510;
-    --gold: #d4af37;
-    --gold-l: #f0d060;
-    --gold-d: #8b6914;
-    --glow: rgba(212,175,55,0.35);
-    --txt: #d5cfc0;
-    --txt-w: #f8f4ec;
+let currentStage = 0;
+const totalStages = stages.length;
+
+// ===== СОЗДАЁМ ЭКРАНЫ ЭТАПОВ =====
+const container = document.getElementById('stages-container');
+stages.forEach((st, idx) => {
+    const sec = document.createElement('section');
+    sec.classList.add('screen'); sec.id = st.id;
+    sec.innerHTML = `
+        <div class="screen-content stage-content">
+            <button class="circle-back-btn nav-back" data-back="${idx === 0 ? 'screen-greeting' : stages[idx-1].id}">&#10094;</button>
+            <div class="stage-badge">${st.num}</div>
+            <div class="stage-photo-wrap">
+                <img src="${st.img}" alt="${st.title}">
+                <div class="photo-inner-frame"></div>
+            </div>
+            <h3 class="stage-title">${st.title}</h3>
+            <p class="stage-text">${st.text}</p>
+            <div class="dots-indicator">${stages.map((_,i) => `<span class="dot${i===idx?' active':''}${i<idx?' passed':''}"></span>`).join('')}</div>
+            <div class="stage-nav">
+                <button class="arrow-btn nav-back" data-back="${idx === 0 ? 'screen-greeting' : stages[idx-1].id}">&#10094;</button>
+                <span class="stage-counter">${idx+1} / ${totalStages}</span>
+                <button class="arrow-btn ${idx === totalStages-1 ? 'next-btn' : 'next-btn'}" data-next="${idx === totalStages-1 ? 'screen-video1' : stages[idx+1].id}">&#10095;</button>
+            </div>
+        </div>
+    `;
+    container.appendChild(sec);
+});
+
+// ===== ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ =====
+function switchScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) { target.classList.add('active'); target.scrollTop = 0; }
 }
 
-html, body {
-    height: 100%; overflow: hidden;
-    font-family: 'Playfair Display', 'Montserrat', serif;
-    background: var(--bg); color: var(--txt-w);
-    -webkit-tap-highlight-color: transparent;
-    user-select: none; -webkit-user-select: none;
+// ===== КНОПКИ НАЗАД (все) =====
+document.addEventListener('click', function(e) {
+    const backBtn = e.target.closest('.nav-back');
+    if (backBtn) {
+        const backId = backBtn.getAttribute('data-back');
+        if (backId) switchScreen(backId);
+        return;
+    }
+    const nextBtn = e.target.closest('.next-btn');
+    if (nextBtn) {
+        const nextId = nextBtn.getAttribute('data-next');
+        if (nextId) {
+            switchScreen(nextId);
+            if (nextId === 'screen-final') setTimeout(createLeaves, 400);
+        }
+        return;
+    }
+});
+
+// ===== АКТИВАЦИЯ =====
+document.getElementById('btn-activate').addEventListener('click', () => {
+    switchScreen('screen-greeting');
+    createParticles();
+    setTimeout(() => {
+        const b = document.getElementById('btn-continue');
+        b.style.opacity = '1'; b.style.transform = 'translateY(0)';
+    }, 5500);
+});
+document.getElementById('btn-continue').addEventListener('click', () => switchScreen('screen-childhood'));
+
+// ===== ЧАСТИЦЫ =====
+function createParticles() {
+    const c = document.getElementById('particles'); c.innerHTML = '';
+    for(let i=0;i<45;i++){
+        const p = document.createElement('div'); p.classList.add('particle');
+        p.style.left = Math.random()*100+'%';
+        p.style.top = (100+Math.random()*40)+'%';
+        p.style.setProperty('--drift', (Math.random()-.5)*220+'px');
+        const s = 2+Math.random()*5;
+        p.style.width = s+'px'; p.style.height = s+'px';
+        p.style.animationDuration = (3+Math.random()*7)+'s';
+        p.style.animationDelay = Math.random()*3+'s';
+        p.style.opacity = .3+Math.random()*.7;
+        c.appendChild(p);
+    }
 }
 
-/* ===== ЗВЁЗДЫ ===== */
-.stars-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-.star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle infinite alternate; }
-@keyframes twinkle { 0% { opacity: 0.2; transform: scale(1); } 100% { opacity: 1; transform: scale(2); } }
-
-/* ===== СИЯНИЕ ===== */
-.aurora {
-    position: fixed; top: -30%; left: -20%; width: 140%; height: 80%;
-    background: radial-gradient(ellipse at 30% 20%, rgba(100,140,220,.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 40%, rgba(60,180,160,.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 50% 10%, rgba(140,100,200,.05) 0%, transparent 50%);
-    pointer-events: none; z-index: 0;
-    animation: aurora 15s ease-in-out infinite;
+// ===== ВИДЕО =====
+function setupVideo(vId, bId, sId, nextScreen) {
+    const v = document.getElementById(vId);
+    const b = document.getElementById(bId);
+    const s = document.getElementById(sId);
+    if(!v||!b||!s) return;
+    b.style.display = 'none';
+    function show(){ b.style.display='inline-block'; b.style.opacity='0'; b.style.transform='translateY(15px)'; requestAnimationFrame(()=>{ b.style.transition='opacity .7s, transform .7s'; b.style.opacity='1'; b.style.transform='translateY(0)'; }); }
+    v.addEventListener('ended', show);
+    v.addEventListener('timeupdate', ()=>{ if(v.duration>0 && v.currentTime/v.duration>=.95) show(); });
+    b.addEventListener('click', ()=>{ v.pause(); switchScreen(nextScreen); if(nextScreen==='screen-final') setTimeout(createLeaves,400); });
+    s.addEventListener('click', ()=>{ v.pause(); switchScreen(nextScreen); if(nextScreen==='screen-final') setTimeout(createLeaves,400); });
 }
-@keyframes aurora { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5%); } }
+setupVideo('video1','btn-video1','skip-video1','screen-video2');
+setupVideo('video2','btn-video2','skip-video2','screen-final');
 
-/* ===== ЭКРАНЫ ===== */
-.screen {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity .6s ease;
-    z-index: 1; overflow-y: auto; overflow-x: hidden;
+// ===== ДЕРЕВО ЖИЗНИ =====
+function buildTree() {
+    const tc = document.getElementById('tree-container');
+    if(!tc) return;
+    const photos = ['images/childhood.jpg','images/youth.jpg','images/army.jpg','images/pearl-wedding.jpg','images/daughter.jpg','images/son.jpg','images/family.jpg'];
+    tc.innerHTML = photos.map((img,i) => {
+        if(i===6) return `<div class="tree-photo tree-photo-center"><img src="${img}" alt=""></div>`;
+        return `<div class="tree-photo tree-photo-${i}"><img src="${img}" alt=""></div>`;
+    }).join('');
 }
-.screen.active { opacity: 1; pointer-events: all; z-index: 10; }
-.screen-content { text-align: center; padding: 30px 20px; max-width: 450px; width: 100%; z-index: 2; position: relative; }
+buildTree();
 
-/* ===== АКТИВАЦИЯ ===== */
-.cosmic-ring { width: 150px; height: 150px; margin: 0 auto 45px; position: relative; display: flex; align-items: center; justify-content: center; }
-.cosmic-ring-inner {
-    width: 130px; height: 130px; border-radius: 50%; border: 2px solid var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    animation: pulse 3s ease-in-out infinite;
-    box-shadow: 0 0 50px var(--glow), 0 0 100px var(--glow), inset 0 0 50px var(--glow);
-    background: radial-gradient(circle, rgba(212,175,55,.1) 0%, transparent 70%); z-index: 2;
+// ===== ЛИСТЬЯ =====
+function createLeaves() {
+    const c = document.getElementById('tree-leaves'); if(!c) return; c.innerHTML = '';
+    for(let i=0;i<30;i++){
+        const l = document.createElement('div'); l.classList.add('leaf');
+        l.style.left = (Math.random()*260-10)+'px';
+        l.style.top = (-Math.random()*30)+'px';
+        l.style.setProperty('--drift', (Math.random()-.5)*150+'px');
+        l.style.setProperty('--spin', (Math.random()*720-360)+'deg');
+        l.style.animationDuration = (3+Math.random()*5)+'s';
+        l.style.animationDelay = Math.random()*4+'s';
+        const s = 4+Math.random()*8;
+        l.style.width = s+'px'; l.style.height = s+'px';
+        c.appendChild(l);
+        setInterval(()=>{ l.style.animation='none'; l.offsetHeight; l.style.animation=`lFall ${3+Math.random()*5}s linear forwards`; l.style.animationDelay=Math.random()*2+'s'; }, 7000+Math.random()*5000);
+    }
 }
-.ring-number { font-size: 62px; font-weight: 900; color: var(--gold); text-shadow: 0 0 30px var(--glow); }
-.cosmic-orbit { position: absolute; inset: -12px; border-radius: 50%; border: 1px solid rgba(212,175,55,.25); animation: spin 8s linear infinite; }
-.cosmic-orbit-2 { position: absolute; inset: -24px; border-radius: 50%; border: 1px dashed rgba(212,175,55,.1); animation: spin 14s linear infinite reverse; }
-@keyframes pulse { 0%,100% { box-shadow: 0 0 50px var(--glow), 0 0 100px var(--glow), inset 0 0 50px var(--glow); } 50% { box-shadow: 0 0 80px var(--glow), 0 0 160px var(--glow), inset 0 0 80px var(--glow); } }
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* ===== КНОПКИ ===== */
-.golden-btn {
-    display: inline-block; padding: 16px 40px;
-    background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-l));
-    color: #0a0a12; border: none; border-radius: 30px;
-    font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600;
-    letter-spacing: 2px; text-transform: uppercase;
-    cursor: pointer; overflow: hidden;
-    box-shadow: 0 6px 25px rgba(212,175,55,.25);
-    transition: transform .2s, box-shadow .2s; outline: none; z-index: 2; position: relative;
+// ===== ОБНЯТЬ =====
+document.getElementById('btn-hug').addEventListener('click', function(){
+    createHearts();
+    if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
+    const o = this.innerHTML;
+    this.innerHTML = '<span>🤍 Крепко обнимаю!</span><span class="btn-shine"></span>';
+    setTimeout(()=>{ this.innerHTML = o; }, 2500);
+});
+
+function createHearts() {
+    const c = document.getElementById('hearts-container'); if(!c) return;
+    const h = ['🤍','✨','💛','🌟','💝','🕊️'];
+    for(let i=0;i<25;i++){
+        setTimeout(()=>{
+            const el = document.createElement('div'); el.classList.add('heart');
+            el.textContent = h[Math.floor(Math.random()*h.length)];
+            el.style.left = (15+Math.random()*70)+'%';
+            el.style.bottom = '5%';
+            el.style.setProperty('--drift', (Math.random()-.5)*220+'px');
+            el.style.animationDuration = (2+Math.random()*4)+'s';
+            el.style.fontSize = (20+Math.random()*35)+'px';
+            c.appendChild(el);
+            setTimeout(()=>{ if(el.parentNode) el.remove(); }, 5000);
+        }, i*50);
+    }
 }
-.golden-btn:active { transform: scale(.93); box-shadow: 0 3px 12px rgba(212,175,55,.5); }
-.btn-shine {
-    position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
-    transform: skewX(-20deg); animation: shine 4s ease-in-out infinite;
-}
-@keyframes shine { 0% { left: -100%; } 50% { left: 120%; } 100% { left: 120%; } }
-.subtitle-text { margin-top: 24px; color: var(--txt); font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: .45; }
 
-/* ===== ПРИВЕТСТВИЕ ===== */
-.greeting-crown { font-size: 44px; margin-bottom: 10px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 0 18px var(--glow)); }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-.greeting-divider { width: 50px; height: 1px; background: var(--gold); margin: 8px auto 0; opacity: .5; }
-.greeting-text { color: var(--gold); text-shadow: 0 0 35px var(--glow); opacity: 0; transform: translateY(30px); }
-.greeting-line-1 { font-size: 38px; font-weight: 700; margin-bottom: 6px; animation: appear 1s ease forwards .3s; }
-.greeting-line-2 { font-size: 22px; font-weight: 400; margin-bottom: 10px; animation: appear 1s ease forwards 2.5s; color: var(--gold-l); }
-.greeting-sub { font-size: 14px; color: var(--txt); opacity: 0; margin-bottom: 45px; font-weight: 300; letter-spacing: 2px; animation: appear 1s ease forwards 3.8s; }
-.greeting-btn { opacity: 0; transform: translateY(20px); animation: appear .8s ease forwards 5s; }
-@keyframes appear { to { opacity: 1; transform: translateY(0); } }
-
-/* ===== ЧАСТИЦЫ ===== */
-.particles-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
-.particle { position: absolute; background: var(--gold); border-radius: 50%; animation: pFloat linear infinite; box-shadow: 0 0 6px var(--glow); }
-@keyframes pFloat { 0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; } 10% { opacity: .9; } 90% { opacity: .5; } 100% { transform: translateY(-110vh) translateX(var(--drift)) scale(0); opacity: 0; } }
-
-/* ===== КРУГЛАЯ КНОПКА НАЗАД ===== */
-.circle-back-btn {
-    position: absolute; top: 12px; left: 12px;
-    width: 42px; height: 42px; border-radius: 50%;
-    border: 1px solid rgba(212,175,55,.4); background: rgba(255,255,255,.03);
-    color: var(--gold); font-size: 20px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all .3s; z-index: 5; line-height: 1; padding: 0;
-}
-.circle-back-btn:active { background: rgba(212,175,55,.15); transform: scale(.9); }
-
-/* ===== ЭТАПЫ ===== */
-.stage-badge { font-size: 70px; font-weight: 900; color: var(--gold); opacity: .08; margin-bottom: -30px; line-height: 1; }
-
-/* ===== ФОТО ОВАЛ ===== */
-.stage-photo-wrap {
-    position: relative; width: 200px; height: 250px; margin: 25px auto;
-    border-radius: 40% 40% 30% 30% / 30% 30% 40% 40%;
-    overflow: hidden;
-    box-shadow: 0 0 50px var(--glow);
-    animation: photoReveal .8s ease;
-}
-.stage-photo-wrap img {
-    width: 100%; height: 100%; object-fit: cover;
-    filter: sepia(.15) brightness(.9);
-}
-.photo-inner-frame {
-    position: absolute; inset: 6px;
-    border-radius: 38% 38% 28% 28% / 28% 28% 38% 38%;
-    border: 1px solid rgba(212,175,55,.5);
-    pointer-events: none; z-index: 2;
-}
-@keyframes photoReveal { from { opacity: 0; transform: scale(.85); clip-path: circle(0% at 50% 50%); } to { opacity: 1; transform: scale(1); clip-path: circle(100% at 50% 50%); } }
-
-/* ===== ТЕКСТ ЭТАПА ===== */
-.stage-title { font-size: 24px; font-weight: 700; color: var(--gold); margin: 16px 0 8px; text-shadow: 0 0 18px var(--glow); }
-.stage-text { font-size: 14px; line-height: 1.8; color: var(--txt); margin-bottom: 30px; font-weight: 300; opacity: 0; animation: fadeUp .6s ease forwards .3s; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ===== ИНДИКАТОР ТОЧЕК ===== */
-.dots-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 22px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(212,175,55,.3); transition: all .3s; }
-.dot.active { background: var(--gold); box-shadow: 0 0 10px var(--glow); transform: scale(1.3); }
-.dot.passed { background: var(--gold); opacity: .6; }
-
-/* ===== НАВИГАЦИЯ ЭТАПА ===== */
-.stage-nav { display: flex; align-items: center; justify-content: center; gap: 20px; }
-.arrow-btn {
-    width: 48px; height: 48px; border-radius: 50%;
-    border: 1px solid rgba(212,175,55,.4); background: rgba(255,255,255,.03);
-    color: var(--gold); font-size: 22px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all .3s; padding: 0; line-height: 1;
-}
-.arrow-btn:active { background: rgba(212,175,55,.15); transform: scale(.88); }
-.stage-counter { color: var(--gold); font-size: 13px; font-family: 'Montserrat', sans-serif; letter-spacing: 2px; opacity: .7; min-width: 50px; text-align: center; }
-
-/* ===== ВИДЕО ===== */
-.video-container { position: relative; width: 100%; max-width: 350px; margin: 18px auto; border-radius: 12px; overflow: hidden; }
-.video-frame { position: absolute; inset: 0; border: 2px solid var(--gold); border-radius: 12px; box-shadow: 0 0 35px var(--glow); pointer-events: none; z-index: 2; }
-.greeting-video { width: 100%; display: block; border-radius: 12px; background: #000; z-index: 1; }
-.video-caption { font-family: 'Montserrat', sans-serif; font-size: 12px; color: var(--txt); letter-spacing: 3px; text-transform: uppercase; opacity: .5; margin-bottom: 16px; }
-.video-buttons { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.skip-btn { background: none; border: 1px solid rgba(212,175,55,.3); color: var(--gold); padding: 8px 22px; border-radius: 20px; font-size: 12px; cursor: pointer; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; transition: all .3s; }
-.skip-btn:active { background: rgba(212,175,55,.1); transform: scale(.95); }
-
-/* ===== ФИНАЛ ===== */
-.tree-container { position: relative; width: 280px; height: 280px; margin: 0 auto 20px; }
-.tree-photo {
-    position: absolute; width: 70px; height: 70px; border-radius: 35% 35% 25% 25% / 25% 25% 35% 35%;
-    overflow: hidden; border: 2px solid var(--gold);
-    box-shadow: 0 0 25px var(--glow);
-    animation: tFloat 6s ease-in-out infinite;
-}
-.tree-photo img { width: 100%; height: 100%; object-fit: cover; }
-.tree-photo-0 { top: 5px; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
-.tree-photo-1 { top: 50px; left: 2%; animation-delay: 1s; }
-.tree-photo-2 { top: 50px; right: 2%; animation-delay: 2s; }
-.tree-photo-3 { top: 125px; left: 0; animation-delay: .5s; }
-.tree-photo-4 { top: 125px; right: 0; animation-delay: 1.5s; }
-.tree-photo-5 { bottom: 45px; left: 12%; animation-delay: 2.5s; }
-.tree-photo-6 { bottom: 45px; right: 12%; animation-delay: 3s; }
-.tree-photo-center {
-    width: 90px; height: 90px; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    border: 3px solid var(--gold-l); box-shadow: 0 0 45px var(--glow);
-    animation: cPulse 3s ease-in-out infinite; z-index: 3;
-}
-@keyframes tFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@keyframes cPulse { 0%,100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 45px var(--glow); } 50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 75px var(--glow); } }
-
-.tree-leaves { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); pointer-events: none; z-index: 4; width: 300px; height: 320px; }
-.leaf { position: absolute; background: var(--gold); border-radius: 50% 0 50% 0; animation: lFall linear forwards; opacity: 0; box-shadow: 0 0 5px var(--glow); }
-@keyframes lFall { 0% { transform: translateY(-40px) rotate(0deg); opacity: 0; } 20% { opacity: .9; } 100% { transform: translateY(340px) translateX(var(--drift)) rotate(var(--spin)); opacity: 0; } }
-.tree-light { position: absolute; inset: -25px; border-radius: 50%; background: radial-gradient(circle, rgba(212,175,55,.15) 0%, transparent 70%); z-index: 0; animation: pulse 5s ease-in-out infinite; }
-.final-title { font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 18px; text-shadow: 0 0 25px var(--glow); }
-.final-text { font-size: 14px; line-height: 2.1; color: var(--txt); margin-bottom: 30px; font-weight: 300; }
-.golden-text { color: var(--gold); font-weight: 600; font-size: 16px; text-shadow: 0 0 10px var(--glow); }
-
-/* ===== СЕРДЕЧКИ ===== */
-.hearts-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
-.heart { position: absolute; animation: hFloat linear forwards; pointer-events: none; }
-@keyframes hFloat { 0% { transform: translateY(0) scale(0); opacity: 0; } 15% { transform: translateY(-20px) scale(1.3); opacity: 1; } 85% { opacity: .5; } 100% { transform: translateY(-85vh) translateX(var(--drift)) scale(.1); opacity: 0; } }
-
-/* ===== АДАПТИВ ===== */
-@media (max-width: 380px) {
-    .stage-photo-wrap { width: 170px; height: 215px; }
-    .stage-title { font-size: 20px; }
-    .stage-text { font-size: 13px; }
-    .tree-container { width: 250px; height: 250px; }
-    .tree-photo { width: 58px; height: 58px; }
-    .tree-photo-center { width: 75px; height: 75px; }
+// ===== SW =====
+if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{ navigator.serviceWorker.register('service-worker.js'); });
 }
