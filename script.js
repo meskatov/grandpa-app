@@ -1,4 +1,4 @@
-// ===== ЗВЁЗДЫ =====
+// ЗВЁЗДЫ
 (function(){
     const c = document.getElementById('stars-container');
     for(let i=0;i<100;i++){
@@ -13,7 +13,7 @@
     }
 })();
 
-// ===== ДАННЫЕ ЭТАПОВ =====
+// ДАННЫЕ ЭТАПОВ
 const stages = [
     { id:'screen-childhood', num:'01', img:'images/childhood.jpg', title:'С чего всё начиналось...', text:'Маленький Володя. Крошечные ладошки, которые тянулись к маме. Первые шаги по скрипучему полу старого дома. Запах бабушкиных пирогов по выходным. Двор, где каждый куст был тайной, а каждая лужа — океаном.' },
     { id:'screen-school', num:'02', img:'images/school.jpg', title:'Школьные годы', text:'Белый фартук, букет гладиолусов, первый звонок. Ты сидел за партой и рисовал самолётики. Учительница говорила: «Володя, ты способный». А ты старался. По-своему. Друзья, первые пятёрки и двойки, первые победы.' },
@@ -27,17 +27,16 @@ const stages = [
     { id:'screen-family', num:'09', img:'images/family.jpg', title:'Александра, Наташа, Игорь — твой мир', text:'Ты построил дом. Не из кирпича — из любви. Александра всегда рядом. Наташа и Игорь — твоя гордость. Это и есть счастье.' }
 ];
 
-let currentStage = 0;
-const totalStages = stages.length;
-
-// ===== СОЗДАЁМ ЭКРАНЫ ЭТАПОВ =====
-const container = document.getElementById('stages-container');
+// СОЗДАЁМ ЭКРАНЫ
+const sc = document.getElementById('stages-container');
 stages.forEach((st, idx) => {
+    const prevId = idx === 0 ? 'screen-greeting' : stages[idx-1].id;
+    const nextId = idx === stages.length-1 ? 'screen-video1' : stages[idx+1].id;
     const sec = document.createElement('section');
     sec.classList.add('screen'); sec.id = st.id;
     sec.innerHTML = `
         <div class="screen-content stage-content">
-            <button class="circle-back-btn nav-back" data-back="${idx === 0 ? 'screen-greeting' : stages[idx-1].id}">&#10094;</button>
+            <button class="circle-back-btn nav-back" data-back="${prevId}">&#10094;</button>
             <div class="stage-badge">${st.num}</div>
             <div class="stage-photo-wrap">
                 <img src="${st.img}" alt="${st.title}">
@@ -47,53 +46,39 @@ stages.forEach((st, idx) => {
             <p class="stage-text">${st.text}</p>
             <div class="dots-indicator">${stages.map((_,i) => `<span class="dot${i===idx?' active':''}${i<idx?' passed':''}"></span>`).join('')}</div>
             <div class="stage-nav">
-                <button class="arrow-btn nav-back" data-back="${idx === 0 ? 'screen-greeting' : stages[idx-1].id}">&#10094;</button>
-                <span class="stage-counter">${idx+1} / ${totalStages}</span>
-                <button class="arrow-btn ${idx === totalStages-1 ? 'next-btn' : 'next-btn'}" data-next="${idx === totalStages-1 ? 'screen-video1' : stages[idx+1].id}">&#10095;</button>
+                <button class="arrow-btn nav-back" data-back="${prevId}">&#10094;</button>
+                <span class="stage-counter">${idx+1} / ${stages.length}</span>
+                <button class="arrow-btn next-btn" data-next="${nextId}">&#10095;</button>
             </div>
         </div>
     `;
-    container.appendChild(sec);
+    sc.appendChild(sec);
 });
 
-// ===== ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ =====
+// ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
 function switchScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(id);
-    if (target) { target.classList.add('active'); target.scrollTop = 0; }
+    const t = document.getElementById(id);
+    if (t) { t.classList.add('active'); t.scrollTop = 0; }
 }
 
-// ===== КНОПКИ НАЗАД (все) =====
+// КЛИКИ ПО КНОПКАМ
 document.addEventListener('click', function(e) {
-    const backBtn = e.target.closest('.nav-back');
-    if (backBtn) {
-        const backId = backBtn.getAttribute('data-back');
-        if (backId) switchScreen(backId);
-        return;
-    }
-    const nextBtn = e.target.closest('.next-btn');
-    if (nextBtn) {
-        const nextId = nextBtn.getAttribute('data-next');
-        if (nextId) {
-            switchScreen(nextId);
-            if (nextId === 'screen-final') setTimeout(createLeaves, 400);
-        }
-        return;
-    }
+    const back = e.target.closest('.nav-back');
+    if (back) { const id = back.getAttribute('data-back'); if (id) switchScreen(id); return; }
+    const next = e.target.closest('.next-btn');
+    if (next) { const id = next.getAttribute('data-next'); if (id) { switchScreen(id); if (id==='screen-final') setTimeout(createLeaves,400); } return; }
 });
 
-// ===== АКТИВАЦИЯ =====
-document.getElementById('btn-activate').addEventListener('click', () => {
+// АКТИВАЦИЯ
+document.getElementById('btn-activate').addEventListener('click', ()=>{
     switchScreen('screen-greeting');
     createParticles();
-    setTimeout(() => {
-        const b = document.getElementById('btn-continue');
-        b.style.opacity = '1'; b.style.transform = 'translateY(0)';
-    }, 5500);
+    setTimeout(()=>{ const b=document.getElementById('btn-continue'); b.style.opacity='1'; b.style.transform='translateY(0)'; }, 5500);
 });
-document.getElementById('btn-continue').addEventListener('click', () => switchScreen('screen-childhood'));
+document.getElementById('btn-continue').addEventListener('click', ()=>switchScreen('screen-childhood'));
 
-// ===== ЧАСТИЦЫ =====
+// ЧАСТИЦЫ
 function createParticles() {
     const c = document.getElementById('particles'); c.innerHTML = '';
     for(let i=0;i<45;i++){
@@ -110,7 +95,7 @@ function createParticles() {
     }
 }
 
-// ===== ВИДЕО =====
+// ВИДЕО
 function setupVideo(vId, bId, sId, nextScreen) {
     const v = document.getElementById(vId);
     const b = document.getElementById(bId);
@@ -126,7 +111,7 @@ function setupVideo(vId, bId, sId, nextScreen) {
 setupVideo('video1','btn-video1','skip-video1','screen-video2');
 setupVideo('video2','btn-video2','skip-video2','screen-final');
 
-// ===== ДЕРЕВО ЖИЗНИ =====
+// ДЕРЕВО ЖИЗНИ
 function buildTree() {
     const tc = document.getElementById('tree-container');
     if(!tc) return;
@@ -138,7 +123,7 @@ function buildTree() {
 }
 buildTree();
 
-// ===== ЛИСТЬЯ =====
+// ЛИСТЬЯ
 function createLeaves() {
     const c = document.getElementById('tree-leaves'); if(!c) return; c.innerHTML = '';
     for(let i=0;i<30;i++){
@@ -156,7 +141,7 @@ function createLeaves() {
     }
 }
 
-// ===== ОБНЯТЬ =====
+// ОБНЯТЬ
 document.getElementById('btn-hug').addEventListener('click', function(){
     createHearts();
     if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
@@ -183,7 +168,7 @@ function createHearts() {
     }
 }
 
-// ===== SW =====
+// SW
 if('serviceWorker' in navigator){
     window.addEventListener('load', ()=>{ navigator.serviceWorker.register('service-worker.js'); });
 }
