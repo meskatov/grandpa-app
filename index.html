@@ -16,7 +16,7 @@
     <div class="stars-container" id="stars-container"></div>
     <div class="aurora"></div>
 
-    <!-- 1. АКТИВАЦИЯ -->
+    <!-- АКТИВАЦИЯ -->
     <section class="screen active" id="screen-activation">
         <div class="screen-content">
             <div class="cosmic-ring">
@@ -29,7 +29,7 @@
         </div>
     </section>
 
-    <!-- 2. ПРИВЕТСТВИЕ -->
+    <!-- ПРИВЕТСТВИЕ -->
     <section class="screen" id="screen-greeting">
         <div class="screen-content greeting-content">
             <div class="greeting-crown">✦</div>
@@ -42,65 +42,48 @@
         <div class="particles-container" id="particles"></div>
     </section>
 
-    <!-- ЭТАПЫ ЖИЗНИ (генерируются в JS) -->
+    <!-- ЭТАПЫ ЖИЗНИ -->
     <div id="stages-container"></div>
 
-    <!-- 13. ВИДЕО 1 -->
-    <section class="screen" id="screen-video1">
+    <!-- ВИДЕО -->
+    <section class="screen" id="screen-video">
         <div class="screen-content video-content">
             <button class="circle-back-btn nav-back" data-back="screen-family">&#10094;</button>
             <div class="stage-badge">🎬</div>
             <div class="video-container">
-                <video id="video1" class="greeting-video" controls playsinline preload="auto" poster="images/poster1.jpg">
-                    <source src="images/video1.mp4" type="video/mp4">
+                <video id="greeting-video" class="greeting-video" controls playsinline preload="auto" poster="images/poster.jpg">
+                    <source src="images/video.mp4" type="video/mp4">
                 </video>
                 <div class="video-frame"></div>
             </div>
-            <p class="video-caption">Первое поздравление</p>
+            <p class="video-caption">Видео-поздравление</p>
             <div class="video-buttons">
-                <button class="golden-btn nav-btn next-btn" data-next="screen-video2" id="btn-video1"><span>Дальше</span></button>
-                <button class="skip-btn" id="skip-video1">Пропустить ›</button>
+                <button class="golden-btn nav-btn next-btn" data-next="screen-final" id="btn-video"><span>К финалу</span></button>
+                <button class="skip-btn" id="skip-video">Пропустить ›</button>
             </div>
         </div>
     </section>
 
-    <!-- 14. ВИДЕО 2 -->
-    <section class="screen" id="screen-video2">
-        <div class="screen-content video-content">
-            <button class="circle-back-btn nav-back" data-back="screen-video1">&#10094;</button>
-            <div class="stage-badge">🎬</div>
-            <div class="video-container">
-                <video id="video2" class="greeting-video" controls playsinline preload="auto" poster="images/poster2.jpg">
-                    <source src="images/video2.mp4" type="video/mp4">
-                </video>
-                <div class="video-frame"></div>
-            </div>
-            <p class="video-caption">Второе поздравление</p>
-            <div class="video-buttons">
-                <button class="golden-btn nav-btn next-btn" data-next="screen-final" id="btn-video2"><span>К финалу</span></button>
-                <button class="skip-btn" id="skip-video2">Пропустить ›</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- 15. ФИНАЛ -->
+    <!-- ФИНАЛ -->
     <section class="screen" id="screen-final">
         <div class="screen-content final-content">
-            <button class="circle-back-btn nav-back" data-back="screen-video2">&#10094;</button>
-            <div class="tree-container" id="tree-container"></div>
+            <button class="circle-back-btn nav-back" data-back="screen-video">&#10094;</button>
+            <div class="tree-wrapper" id="tree-wrapper"></div>
             <div class="tree-leaves" id="tree-leaves"></div>
             <div class="tree-light"></div>
             <div class="final-text-container">
                 <h2 class="final-title">Твоё дерево жизни</h2>
                 <p class="final-text">
                     Каждая ветвь — это год.<br>Каждый листок — это момент.<br>
-                    Твои корни — мама Галя и папа.<br>Твоя крона — Александра, Наташа и Игорь.<br><br>
-                    <span class="golden-text">Ты прожил 60 лет достойно.</span><br>
-                    <span class="golden-text">Спасибо тебе за всё.</span><br>
-                    <span class="golden-text">Мы тебя любим.</span>
+                    Твои корни — мама Галя и папа Георгий.<br>Твоя крона — Александра, Наташа и Игорь.<br><br>
+                    <span class="golden-text">Ты прожил 60 лет и живи ещё дольше.</span>
                 </p>
+                <button class="golden-btn" id="btn-final-continue"><span>Продолжить</span><span class="btn-shine"></span></button>
+                <div class="hidden-message" id="egor-message">
+                    <p class="egor-text">С поздравлением от Егора ❤️</p>
+                </div>
+                <button class="golden-btn hug-btn" id="btn-hug" style="display:none;"><span>🤍 Обнять</span><span class="btn-shine"></span></button>
             </div>
-            <button class="golden-btn hug-btn" id="btn-hug"><span>🤍 Обнять</span><span class="btn-shine"></span></button>
         </div>
         <div class="hearts-container" id="hearts-container"></div>
     </section>
