@@ -1,4 +1,4 @@
-const CACHE_NAME = 'grandpa-v5';
+const CACHE_NAME = 'grandpa-v6';
 const urls = ['.','index.html','style.css','script.js','manifest.json'];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urls)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(names => Promise.all(names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n))))));
